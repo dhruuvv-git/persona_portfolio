@@ -245,9 +245,9 @@ export default function AboutMe({ src = main1 }) {
 
   return (
     <div id="menu-screen">
-      <video src={src || main1} autoPlay loop muted playsInline />
+      <video src={src || main1} autoPlay loop muted playsInline preload="auto" />
       <div className="resume-entry-mask" aria-hidden="true">
-        <video className="resume-entry-video" src={src || main1} autoPlay loop muted playsInline />
+        <video className="resume-entry-video" src={src || main1} autoPlay loop muted playsInline preload="auto" />
       </div>
       {revealed && <div key={`dim-${active}`} className="sc-dim" />}
       {revealed && REVEAL_CONTENT[active].greeting && (

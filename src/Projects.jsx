@@ -228,7 +228,7 @@ export default function Projects() {
       <img
         src={aboutBg}
         alt=""
-        className="sc-bg-img"
+        className="sc-bg-img" loading="eager" decoding="sync"
         draggable={false}
         onDragStart={(e) => e.preventDefault()}
       />

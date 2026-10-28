@@ -1,8 +1,9 @@
-import { Routes, Route, useLocation, useNavigate, Navigate } from 'react-router-dom'
+import { useEffect } from 'react'
+import { Routes, Route, useLocation, useNavigate } from 'react-router-dom'
 import { AnimatePresence } from 'framer-motion'
 import mainMenuVideo from './assets/main_menu_asset.mp4'
 import main1 from './assets/main1.mp4'
-import main2 from './assets/main2.mp4'
+import aboutBg from './assets/about_bg.gif'
 import P3Menu from './P3Menu'
 import ResumePage from './ResumePage'
 import PageTransition from './PageTransition'
@@ -45,6 +46,71 @@ function BackButton() {
   )
 }
 
+/* ── Eager Background Asset Preloader (eliminates sub-menu loading lag) ── */
+function BackgroundPreloader() {
+  useEffect(() => {
+    // 1. Preload and decode video into hardware buffer
+    const v = document.createElement('video')
+    v.src = main1
+    v.preload = 'auto'
+    v.muted = true
+    v.playsInline = true
+    v.load()
+
+    // 2. Pre-cache the projects background GIF in memory
+    const img = new Image()
+    img.src = aboutBg
+
+    // 3. Register high-priority preload hints in <head>
+    const linkVideo = document.createElement('link')
+    linkVideo.rel = 'preload'
+    linkVideo.as = 'video'
+    linkVideo.href = main1
+    linkVideo.type = 'video/mp4'
+    document.head.appendChild(linkVideo)
+
+    const linkImg = document.createElement('link')
+    linkImg.rel = 'preload'
+    linkImg.as = 'image'
+    linkImg.href = aboutBg
+    document.head.appendChild(linkImg)
+
+    return () => {
+      try {
+        document.head.removeChild(linkVideo)
+        document.head.removeChild(linkImg)
+      } catch (_) {}
+    }
+  }, [])
+
+  return (
+    <div
+      aria-hidden="true"
+      style={{
+        position: 'fixed',
+        top: -9999,
+        left: -9999,
+        width: 1,
+        height: 1,
+        overflow: 'hidden',
+        opacity: 0,
+        pointerEvents: 'none',
+        zIndex: -9999,
+      }}
+    >
+      {/* Kept in DOM to maintain active preloaded cache buffer across all sub-menus */}
+      <video
+        src={main1}
+        preload="auto"
+        muted
+        playsInline
+        autoPlay
+      />
+      <img src={aboutBg} alt="" loading="eager" />
+    </div>
+  )
+}
+
 function MenuScreen() {
   const navigate = useNavigate()
   return (
@@ -55,6 +121,7 @@ function MenuScreen() {
         loop
         muted
         playsInline
+        preload="auto"
       />
       <P3Menu onNavigate={(page) => {
         if (page === 'github') {
@@ -71,6 +138,7 @@ function AnimatedRoutes() {
   const location = useLocation()
   return (
     <>
+      <BackgroundPreloader />
       <BackButton />
       <AnimatePresence mode="wait">
         <Routes location={location} key={location.pathname}>
@@ -81,10 +149,10 @@ function AnimatedRoutes() {
             <PageTransition variant="socials"><AboutMe src={main1} /></PageTransition>
           } />
           <Route path="/resume" element={
-            <PageTransition variant="socials"><ResumePage src={main2} /></PageTransition>
+            <PageTransition variant="socials"><ResumePage src={main1} /></PageTransition>
           } />
           <Route path="/socials" element={
-            <PageTransition variant="socials"><Socials /></PageTransition>
+            <PageTransition variant="socials"><Socials src={main1} /></PageTransition>
           } />
           <Route path="/projects" element={
             <PageTransition variant="socials"><Projects /></PageTransition>

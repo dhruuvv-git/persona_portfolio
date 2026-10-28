@@ -8,7 +8,7 @@
 }
 
 body {
-  background: #000;
+  background: #000c28;
   overflow: hidden;
   user-select: none;
   -webkit-user-select: none;
@@ -23,6 +23,7 @@ body {
   user-select: none;
   -webkit-user-select: none;
   -webkit-user-drag: none;
+  background: radial-gradient(circle at 60% 40%, #032152 0%, #020c24 60%, #010614 100%);
 }
 
 #menu-screen video {

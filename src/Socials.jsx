@@ -146,7 +146,7 @@ const SOCIAL_LINKS = [
   },
 ];
 
-export default function Socials() {
+export default function Socials({ src }) {
   const [active, setActive] = useState(0);
   const [mounted, setMounted] = useState(false);
   const navigate = useNavigate();
@@ -174,7 +174,7 @@ export default function Socials() {
   return (
     <div id="menu-screen" className="p3-socials-root">
       {/* ── Left Side: Flowing Oceanic Video Animation ── */}
-      <video className="p3-socials-video" src={bgVideo} autoPlay loop muted playsInline />
+      <video className="p3-socials-video" src={src || bgVideo} autoPlay loop muted playsInline preload="auto" />
 
       {/* ── Floating Polygonal Glass Shards ── */}
       <div className="p3-ambient-particles" aria-hidden="true">
