@@ -158,7 +158,7 @@ const MAIN_IMAGES = [mainm, mainm2, mainf];
 const REVEAL_CONTENT = [
   {
     greeting: "Hola. Salve. Bonjour. こんにちは. This is...",
-    upper: ["DHRUV GOYAL", "Age: 20", "CS + Data Science @ NMIMS Chandigarh"],
+    upper: ["DHRUV GOYAL", "Age: 18", "CS + Data Science @ NMIMS Chandigarh"],
     lower: "3rd sem CSE specialization Data Science undergrad",
   },
   {
