@@ -44,3 +44,529 @@ body {
   width: 100vw;
   height: 100vh;
 }
+
+@media (max-width: 700px) {
+  html,
+  body,
+  #root {
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+  }
+
+  #menu-screen,
+  #main {
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+  }
+
+  #root > button {
+    top: max(10px, env(safe-area-inset-top)) !important;
+    left: 10px !important;
+    font-size: 15px !important;
+    letter-spacing: 1.5px !important;
+    padding: 8px 14px !important;
+  }
+
+  /* Keep the Persona menu's original angled labels, sized for a phone. */
+  #menu-screen .p3-name-tag {
+    top: 12px;
+    left: 16px;
+    font-size: clamp(46px, 12vw, 62px);
+  }
+
+  #menu-screen .p3-menu {
+    width: 100%;
+    gap: 0;
+    padding: 18px 8px;
+  }
+
+  #menu-screen .p3-row {
+    transform: scale(0.62) !important;
+    transform-origin: center;
+    margin-top: -10px !important;
+  }
+
+  /* Keep the About page's portrait, info panel, and selection bars together. */
+  #menu-screen .sc-main-portrait-shell {
+    z-index: 11;
+    top: 7dvh;
+    right: -8vw;
+    width: 48vw;
+    height: 48dvh;
+    opacity: 0.62;
+  }
+
+  #menu-screen .sc-main-portrait-shell.mounted {
+    opacity: 0.62;
+  }
+
+  #menu-screen .sc-reveal-panel {
+    top: 20dvh;
+    left: 4vw;
+    width: 92vw;
+    height: 48dvh;
+    transform: translateX(-40px) rotate(-3deg);
+    transform-origin: center;
+  }
+
+  #menu-screen .sc-reveal-panel.mounted {
+    animation: sc-mobile-panel-in 0.46s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  @keyframes sc-mobile-panel-in {
+    from { opacity: 0; transform: translateY(14px) rotate(-3deg) scale(0.98); }
+    to { opacity: 0.92; transform: translateY(0) rotate(-3deg) scale(1); }
+  }
+
+  #menu-screen .sc-reveal-greeting {
+    top: 11dvh;
+    left: 50%;
+    width: 90vw;
+    white-space: normal;
+    text-align: center;
+    font-size: clamp(15px, 4vw, 18px);
+    letter-spacing: 1px;
+    animation: sc-mobile-greeting-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  @keyframes sc-mobile-greeting-in {
+    from { opacity: 0; transform: translateX(-50%) translateY(-6px); }
+    to { opacity: 1; transform: translateX(-50%) translateY(0); }
+  }
+
+  #menu-screen .sc-reveal-upper-bar {
+    height: 46%;
+    gap: 7px;
+  }
+
+  #menu-screen .sc-reveal-upper-line {
+    padding: 0 16px;
+    font-size: 14px;
+  }
+
+  #menu-screen .sc-reveal-upper-heading {
+    font-size: 12px;
+    letter-spacing: 2px;
+  }
+
+  #menu-screen .sc-reveal-lower-bar {
+    top: 72%;
+    width: 82%;
+    height: 20%;
+    padding: 6px 14px;
+    font-size: 12px;
+    line-height: 1.2;
+  }
+
+  #menu-screen .sc-root {
+    top: auto;
+    right: 0;
+    bottom: max(18px, env(safe-area-inset-bottom));
+    align-items: center;
+    gap: 5px;
+  }
+
+  #menu-screen .sc-bar,
+  #menu-screen .sc-bar-red {
+    width: 92vw;
+    height: 54px;
+  }
+
+  #menu-screen .sc-bar-outer.active .sc-bar,
+  #menu-screen .sc-bar-outer.active .sc-bar-red {
+    height: 74px;
+  }
+
+  #menu-screen .sc-bar-content {
+    padding: 0 12px;
+  }
+
+  #menu-screen .sc-role {
+    padding: 0 6px;
+    font-size: 25px;
+    letter-spacing: -1px;
+  }
+
+  #menu-screen .sc-main {
+    padding-left: 28px;
+  }
+
+  #menu-screen .sc-label {
+    font-size: 19px;
+    letter-spacing: 2px;
+  }
+
+  #menu-screen .sc-char {
+    left: 54px;
+    max-width: 48px;
+  }
+
+  /* Resume page: category cards stay above a full-width, scrollable detail panel. */
+  #menu-screen .resume-stack {
+    top: 54px;
+    left: 12px;
+    width: calc(100% - 24px);
+    max-height: 27vh;
+    gap: 5px;
+    padding: 0 6px 6px 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    transform: none;
+    pointer-events: auto;
+  }
+
+  #menu-screen .resume-list-tag {
+    font-size: 34px;
+    margin: 0 0 2px 6px;
+  }
+
+  #menu-screen .resume-card {
+    height: 52px;
+  }
+
+  #menu-screen .resume-card-inner {
+    padding: 4px 10px 4px 40px;
+    align-items: center;
+  }
+
+  #menu-screen .resume-badge {
+    top: 5px;
+    left: -5px;
+    width: 36px;
+    height: 42px;
+    border-width: 2px;
+  }
+
+  #menu-screen .resume-badge-text {
+    font-size: 25px;
+  }
+
+  #menu-screen .resume-title {
+    font-size: 23px;
+  }
+
+  #menu-screen .resume-rank {
+    gap: 4px;
+  }
+
+  #menu-screen .resume-rank-label {
+    font-size: 13px;
+    letter-spacing: 1px;
+  }
+
+  #menu-screen .resume-rank-number {
+    font-size: 30px;
+  }
+
+  #menu-screen .resume-subtitle-bar {
+    left: 42px;
+    right: 8px;
+    bottom: 4px;
+    height: 17px;
+    padding: 0 8px;
+  }
+
+  #menu-screen .resume-subtitle {
+    font-size: 13px;
+    letter-spacing: 0.5px;
+  }
+
+  #menu-screen .resume-detail-panel {
+    top: 36vh;
+    right: 10px;
+    bottom: max(10px, env(safe-area-inset-bottom));
+    left: 10px;
+    width: auto;
+    min-height: 0;
+    max-height: none;
+    padding: 10px 12px 14px;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  #menu-screen .resume-detail-top {
+    grid-template-columns: 38px minmax(0, 1fr) auto;
+    gap: 6px;
+    min-height: 60px;
+    padding: 0 10px;
+    margin-bottom: 10px;
+  }
+
+  #menu-screen .resume-detail-top-index {
+    font-size: 28px;
+  }
+
+  #menu-screen .resume-detail-top-title {
+    font-size: 21px;
+  }
+
+  #menu-screen .resume-detail-top-progress {
+    font-size: 18px;
+    letter-spacing: 1px;
+  }
+
+  #menu-screen .resume-section-header {
+    font-size: 20px;
+    margin: 12px 0 6px 2px;
+  }
+
+  #menu-screen .resume-detail-row {
+    grid-template-columns: 30px minmax(0, 1fr) auto;
+    gap: 7px;
+    min-height: 44px;
+    padding: 5px 8px;
+  }
+
+  #menu-screen .resume-detail-row-index {
+    font-size: 19px;
+  }
+
+  #menu-screen .resume-detail-row-label {
+    font-size: 12px;
+    letter-spacing: 1px;
+  }
+
+  #menu-screen .resume-detail-row-title {
+    font-size: 17px;
+  }
+
+  #menu-screen .resume-detail-row-desc {
+    font-size: 12px;
+  }
+
+  #menu-screen .resume-detail-status {
+    font-size: 13px;
+    padding: 5px 7px;
+  }
+
+  #menu-screen .resume-detail-bottom {
+    margin-top: 12px;
+    padding: 12px;
+  }
+
+  #menu-screen .resume-detail-bottom-title {
+    font-size: 21px;
+    margin-bottom: 8px;
+  }
+
+  #menu-screen .resume-detail-bullet {
+    font-size: 15px;
+  }
+
+  #menu-screen .resume-detail-tag {
+    font-size: 15px;
+  }
+
+  #menu-screen .resume-actions {
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  #menu-screen .resume-open-link,
+  #menu-screen .resume-visit-link {
+    font-size: 16px;
+    padding: 7px 12px;
+  }
+
+  /* Projects page: browse the project cards horizontally, then read details below. */
+  #menu-screen .resume-stack:has(.resume-card-wrap:nth-of-type(8)) {
+    top: 54px;
+    left: 12px;
+    right: 12px;
+    width: auto;
+    height: 92px;
+    max-height: 92px;
+    flex-direction: row;
+    align-items: flex-end;
+    gap: 8px;
+    padding: 34px 2px 8px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    transform: none;
+  }
+
+  #menu-screen .resume-stack:has(.resume-card-wrap:nth-of-type(8)) .resume-list-tag {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 30px;
+    margin: 0;
+  }
+
+  #menu-screen .resume-stack:has(.resume-card-wrap:nth-of-type(8)) .resume-card-wrap {
+    flex: 0 0 135px;
+  }
+
+  #menu-screen .resume-stack:has(.resume-card-wrap:nth-of-type(8)) .resume-card {
+    height: 50px;
+  }
+
+  #menu-screen .resume-stack:has(.resume-card-wrap:nth-of-type(8)) .resume-card-inner {
+    padding: 3px 6px 3px 34px;
+  }
+
+  #menu-screen .resume-stack:has(.resume-card-wrap:nth-of-type(8)) .resume-badge {
+    top: 5px;
+    left: -4px;
+    width: 31px;
+    height: 38px;
+  }
+
+  #menu-screen .resume-stack:has(.resume-card-wrap:nth-of-type(8)) .resume-badge-text {
+    font-size: 20px;
+  }
+
+  #menu-screen .resume-stack:has(.resume-card-wrap:nth-of-type(8)) .resume-title {
+    max-width: 72px;
+    overflow: hidden;
+    font-size: 14px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  #menu-screen .resume-stack:has(.resume-card-wrap:nth-of-type(8)) .resume-rank-label {
+    display: none;
+  }
+
+  #menu-screen .resume-stack:has(.resume-card-wrap:nth-of-type(8)) .resume-rank-number {
+    font-size: 22px;
+  }
+
+  #menu-screen .resume-stack:has(.resume-card-wrap:nth-of-type(8)) .resume-subtitle-bar {
+    left: 34px;
+    right: 5px;
+    bottom: 3px;
+    height: 15px;
+    padding: 0 5px;
+  }
+
+  #menu-screen .resume-stack:has(.resume-card-wrap:nth-of-type(8)) .resume-subtitle {
+    font-size: 10px;
+  }
+
+  #menu-screen:has(.resume-stack .resume-card-wrap:nth-of-type(8)) .resume-detail-panel {
+    top: 154px;
+    right: 10px;
+    bottom: max(10px, env(safe-area-inset-bottom));
+    left: 10px;
+    width: auto;
+    min-height: 0;
+    max-height: none;
+    padding: 12px;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  #menu-screen:has(.resume-stack .resume-card-wrap:nth-of-type(8)) .resume-detail-top {
+    grid-template-columns: 38px minmax(0, 1fr) auto;
+    gap: 6px;
+    min-height: 60px;
+    padding: 0 10px;
+  }
+
+  #menu-screen:has(.resume-stack .resume-card-wrap:nth-of-type(8)) .resume-detail-top-index {
+    font-size: 28px;
+  }
+
+  #menu-screen:has(.resume-stack .resume-card-wrap:nth-of-type(8)) .resume-detail-top-title,
+  #menu-screen:has(.resume-stack .resume-card-wrap:nth-of-type(8)) .resume-detail-top-progress {
+    font-size: 19px;
+  }
+
+  #menu-screen:has(.resume-stack .resume-card-wrap:nth-of-type(8)) .resume-detail-bottom {
+    margin-top: 12px;
+    padding: 12px;
+  }
+
+  #menu-screen:has(.resume-stack .resume-card-wrap:nth-of-type(8)) .resume-detail-bullet {
+    font-size: 14px;
+  }
+
+  #menu-screen:has(.resume-stack .resume-card-wrap:nth-of-type(8)) .resume-detail-tag {
+    font-size: 14px;
+  }
+
+  /* Social links keep their original cards, now sized for a thumb-width column. */
+  #menu-screen.p3-socials-root .p3-silhouette-stage {
+    width: 78vw;
+    opacity: 0.48;
+  }
+
+  #menu-screen.p3-socials-root .p3-social-overlay {
+    align-items: flex-start;
+  }
+
+  #menu-screen.p3-socials-root .p3-social-stack {
+    top: max(70px, 10dvh);
+    left: 3vw;
+    width: 94vw;
+    max-height: calc(100dvh - 88px);
+    gap: 8px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 0 6px 10px 0;
+    transform: none;
+    pointer-events: auto;
+  }
+
+  #menu-screen.p3-socials-root .p3-social-list-tag {
+    font-size: 52px;
+    margin-bottom: 2px;
+  }
+
+  #menu-screen.p3-socials-root .p3-social-card {
+    height: 72px;
+  }
+
+  #menu-screen.p3-socials-root .p3-social-card-inner {
+    padding: 6px 12px 6px 48px;
+    align-items: center;
+  }
+
+  #menu-screen.p3-socials-root .p3-tarot-badge {
+    top: 7px;
+    left: -5px;
+    width: 42px;
+    height: 52px;
+    border-width: 2px;
+  }
+
+  #menu-screen.p3-socials-root .p3-tarot-badge-num {
+    font-size: 28px;
+  }
+
+  #menu-screen.p3-socials-root .p3-social-title {
+    font-size: 26px;
+    letter-spacing: 1px;
+  }
+
+  #menu-screen.p3-socials-root .p3-social-rank {
+    gap: 4px;
+  }
+
+  #menu-screen.p3-socials-root .p3-social-rank-label {
+    font-size: 12px;
+    letter-spacing: 1px;
+  }
+
+  #menu-screen.p3-socials-root .p3-social-rank-num {
+    font-size: 30px;
+  }
+
+  #menu-screen.p3-socials-root .p3-social-subtitle-bar {
+    left: 48px;
+    right: 8px;
+    bottom: 6px;
+    height: 20px;
+    padding: 0 8px;
+  }
+
+  #menu-screen.p3-socials-root .p3-social-subtitle {
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+  }
+}

@@ -1,5 +1,7 @@
 # Persona Portfolio
 
+For the best experience, view this portfolio on a PC.
+
 A personal portfolio inspired by *Persona 3 Reload*.
 
 ## Highlights
