@@ -164,12 +164,13 @@ const REVEAL_CONTENT = [
   {
     greeting: null,
     upper: [
-      "INTERESTS",
-      "System Architecture, Cyber Security, Machine Learning",
-      "FORTE",
-      "Building high-contrast identity-based pragmatic systems",
+      "PURSUITS",
+      "Culinary · Music · Gym / Fitness",
+      "Design · Literary Arts & Classical Poetry",
+      "GAMING FAVORITES",
+      "Resident Evil · Devil May Cry · Persona · Metal Gear Solid",
     ],
-    lower: "interests & forte",
+    lower: "interests",
   },
   {
     greeting: null,
@@ -260,7 +261,7 @@ export default function AboutMe({ src = main1 }) {
           <div className="sc-reveal-upper-bar">
             {REVEAL_CONTENT[active].upper.map((line) => (
               <div
-                className={`sc-reveal-upper-line${line === line.toUpperCase() && line.length < 20 ? " sc-reveal-upper-heading" : ""}`}
+                className={`sc-reveal-upper-line${line === line.toUpperCase() && line.length <= 25 ? " sc-reveal-upper-heading" : ""}`}
                 key={line}
               >{line}</div>
             ))}
@@ -401,6 +402,38 @@ export default function AboutMe({ src = main1 }) {
           }
         }
 
+        /* Greeting-specific animation — NO rotation, stays flat */
+        @keyframes sc-greeting-in {
+          0% {
+            opacity: 0;
+            transform: translateX(-50%) translateY(-6px);
+          }
+          60% {
+            opacity: 1;
+            transform: translateX(-50%) translateY(2px);
+          }
+          100% {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+          }
+        }
+
+        /* Panel animation that preserves its existing rotate — no jumps */
+        @keyframes sc-panel-in {
+          0% {
+            opacity: 0;
+            transform: translateX(-80px) rotate(-18deg) scaleX(0.94);
+          }
+          65% {
+            opacity: 0.92;
+            transform: translateX(10px) rotate(-18deg) scaleX(1.02);
+          }
+          100% {
+            opacity: 0.92;
+            transform: translateX(0) rotate(-18deg) scaleX(1);
+          }
+        }
+
         @keyframes sc-portrait-in {
           0% {
             opacity: 0;
@@ -450,7 +483,7 @@ export default function AboutMe({ src = main1 }) {
 
         .sc-reveal-panel {
           position: absolute;
-          top: 8vh;
+          top: 15vh;
           left: -6vw;
           width: 88vw;
           height: 88vh;
@@ -464,14 +497,14 @@ export default function AboutMe({ src = main1 }) {
             18px 0 0 rgba(215, 13, 44, 0.82),
             28px 0 0 rgba(255,255,255,0.26);
           opacity: 0;
-          transform: translateX(-40px) rotate(-20deg);
-          transform-origin: left bottom;
+          transform: translateX(-40px) rotate(-18deg);
+          transform-origin: left 65%;
           transition: opacity 0.3s ease, transform 0.35s ease;
         }
         .sc-reveal-panel.mounted {
           opacity: 0.92;
-          transform: translateX(0) rotate(-20deg);
-          animation: sc-reveal-bar-in 0.46s cubic-bezier(0.22, 1, 0.36, 1);
+          transform: translateX(0) rotate(-18deg);
+          animation: sc-panel-in 0.46s cubic-bezier(0.22, 1, 0.36, 1) forwards;
         }
         .sc-reveal-panel::before {
           content: "";
@@ -485,10 +518,10 @@ export default function AboutMe({ src = main1 }) {
         }
         .sc-reveal-upper-bar {
           position: absolute;
-          top: 14%;
+          top: 18%;
           left: 0%;
           width: 100%;
-          height: 52%;
+          height: 50%;
           background: rgba(0, 0, 0, 0.92);
           clip-path: polygon(0 0, 100% 0, calc(100% - 22px) 100%, 0 100%);
           box-shadow: 0 0 0 1px rgba(255,255,255,0.06);
@@ -514,7 +547,7 @@ export default function AboutMe({ src = main1 }) {
           color: #c4001a;
           text-transform: uppercase;
           white-space: nowrap;
-          animation: sc-reveal-bar-in 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+          animation: sc-reveal-bar-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
           text-shadow: 0 0 18px rgba(196,0,26,0.45);
         }
         .sc-reveal-upper-line {
@@ -570,8 +603,8 @@ export default function AboutMe({ src = main1 }) {
           gap: 6px;
           pointer-events: none;
           z-index: 14;
-          transform: translateX(-40px) rotate(-20deg);
-          transform-origin: left bottom;
+          transform: translateX(-40px) rotate(-18deg);
+          transform-origin: left 65%;
           animation: sc-right-nav-pop 0.38s cubic-bezier(0.22,1,0.36,1) both;
         }
         .sc-right-nav .sc-nav-btn {

@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom'
 import { AnimatePresence } from 'framer-motion'
-import mainMenuVideo from './assets/main_menu_asset.mp4'
+import mainMenuVideo from './assets/main_menu_asset_final.mp4'
 import main1 from './assets/main1.mp4'
 import aboutBg from './assets/about_bg.gif'
 import P3Menu from './P3Menu'
@@ -122,6 +122,16 @@ function MenuScreen() {
         muted
         playsInline
         preload="auto"
+        style={{
+          position: "absolute",
+          inset: 0,
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+          transform: "translateZ(0)",
+          willChange: "transform",
+          pointerEvents: "none",
+        }}
       />
       <P3Menu onNavigate={(page) => {
         if (page === 'github') {

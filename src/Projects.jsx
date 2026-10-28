@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import aboutBg from "./assets/about_bg.gif";
 
 /* ─── Uneven Oceanic Caustics Canvas (Left Side Flow & Shimmering Light) ─── */
@@ -197,7 +197,17 @@ const PROJECTS = [
 
 export default function Projects() {
   const navigate = useNavigate();
-  const [active, setActive] = useState(null);
+  const location = useLocation();
+  const initialIndex = (location.state && typeof location.state.projectIndex === "number")
+    ? location.state.projectIndex
+    : 0;
+  const [active, setActive] = useState(initialIndex);
+
+  useEffect(() => {
+    if (location.state && typeof location.state.projectIndex === "number") {
+      setActive(location.state.projectIndex);
+    }
+  }, [location.state]);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {

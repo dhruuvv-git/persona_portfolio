@@ -65,7 +65,8 @@ const POLY = [
 ];
 
 /* ─── Pixel Reveal Entrance Effect ─── */
-const PIXEL_SIZE = 18;
+const PIXEL_SIZE = 38;        // Large tiles → bigger gaps → more video shows through
+const FILL_RATIO = 0.30;      // Only 30% of tiles filled → lots of video visible between
 
 function PixelReveal() {
   const canvasRef = useRef(null);
@@ -80,40 +81,45 @@ function PixelReveal() {
     const rows  = Math.ceil(canvas.height / PIXEL_SIZE);
     const total = cols * rows;
 
+    // Shuffle all positions
     const order = Array.from({ length: total }, (_, i) => i);
     for (let i = order.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [order[i], order[j]] = [order[j], order[i]];
     }
 
+    // Only FILL a sparse subset — video shines through the empty gaps immediately
+    const fillCount = Math.floor(total * FILL_RATIO);
     const COLOURS = ["#0a0010", "#1a0030", "#2a0050", "#0d0020", "#150025"];
-    for (let k = 0; k < total; k++) {
+    for (let k = 0; k < fillCount; k++) {
       const col = order[k] % cols;
       const row = Math.floor(order[k] / cols);
       ctx.fillStyle = COLOURS[k % COLOURS.length];
-      ctx.fillRect(col * PIXEL_SIZE, row * PIXEL_SIZE, PIXEL_SIZE - 1, PIXEL_SIZE - 1);
+      ctx.fillRect(col * PIXEL_SIZE, row * PIXEL_SIZE, PIXEL_SIZE - 3, PIXEL_SIZE - 3);
     }
 
+    // Dissolve only the filled tiles — clear them one by one after a hold
     let idx = 0;
-    const BATCH = Math.max(1, Math.floor(total / 60));
+    const BATCH = Math.max(1, Math.ceil(fillCount / 38));
     let raf;
     const step = () => {
-      for (let b = 0; b < BATCH && idx < total; b++, idx++) {
+      for (let b = 0; b < BATCH && idx < fillCount; b++, idx++) {
         const col = order[idx] % cols;
         const row = Math.floor(order[idx] / cols);
         ctx.clearRect(col * PIXEL_SIZE, row * PIXEL_SIZE, PIXEL_SIZE, PIXEL_SIZE);
       }
-      if (idx < total) raf = requestAnimationFrame(step);
+      if (idx < fillCount) raf = requestAnimationFrame(step);
       else canvas.style.opacity = "0";
     };
-    const t = setTimeout(() => { raf = requestAnimationFrame(step); }, 200);
+    // Hold pixels for 700ms, then dissolve over ~38 frames
+    const t = setTimeout(() => { raf = requestAnimationFrame(step); }, 700);
     return () => { clearTimeout(t); cancelAnimationFrame(raf); };
   }, []);
 
   return (
     <canvas
       ref={canvasRef}
-      style={{ position: "absolute", inset: 0, zIndex: 30, pointerEvents: "none", transition: "opacity 0.4s ease" }}
+      style={{ position: "absolute", inset: 0, zIndex: 30, pointerEvents: "none", transition: "opacity 0.5s ease" }}
     />
   );
 }
@@ -130,7 +136,7 @@ export default function P3Menu({ onNavigate }) {
   };
 
   useEffect(() => {
-    const t = setTimeout(() => setMounted(true), 900);
+    const t = setTimeout(() => setMounted(true), 250);
     return () => clearTimeout(t);
   }, []);
 
