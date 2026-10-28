@@ -22,3 +22,7 @@ Thumbs.db
 
 # Logs
 *.log
+
+# Large unused gif test assets
+*main_menu*.gif
+

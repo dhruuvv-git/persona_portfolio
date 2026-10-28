@@ -1,9 +1,9 @@
-﻿import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import char1 from "./assets/char1.png";
 import char2 from "./assets/char2.png";
 import char3 from "./assets/char3.png";
-import aboutBg from "./assets/about_bg.gif";
+import main1 from "./assets/main1.mp4";
 import icon1 from "./assets/icon1.png";
 import icon2 from "./assets/icon2.png";
 import icon3 from "./assets/icon3.png";
@@ -216,7 +216,7 @@ const ITEMS = [
   },
 ];
 
-export default function AboutMe() {
+export default function AboutMe({ src = main1 }) {
   const [active, setActive]   = useState(0);
   const [mounted, setMounted] = useState(false);
   const [revealed, setRevealed] = useState(false);
@@ -245,16 +245,10 @@ export default function AboutMe() {
 
   return (
     <div id="menu-screen">
-      <img
-        src={aboutBg}
-        alt=""
-        className="sc-bg-img"
-        draggable={false}
-        onDragStart={(e) => e.preventDefault()}
-      />
-      <div className="sc-palette-overlay" aria-hidden="true" />
-      <LeftOceanicCausticsCanvas />
-      <div className="sc-ambient-glow" aria-hidden="true" />
+      <video src={src || main1} autoPlay loop muted playsInline />
+      <div className="resume-entry-mask" aria-hidden="true">
+        <video className="resume-entry-video" src={src || main1} autoPlay loop muted playsInline />
+      </div>
       {revealed && <div key={`dim-${active}`} className="sc-dim" />}
       {revealed && REVEAL_CONTENT[active].greeting && (
         <div key={`greeting-${active}`} className="sc-reveal-greeting">
@@ -287,6 +281,28 @@ export default function AboutMe() {
         @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:ital,wght@0,400;0,700;1,700&family=Montserrat:wght@300&display=swap');
 
         
+        .resume-entry-mask {
+          position: absolute;
+          inset: 0;
+          z-index: 1;
+          overflow: hidden;
+          background: #0047FF;
+          clip-path: circle(0 at 50% 50%);
+          animation: resume-entry-reveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          pointer-events: none;
+        }
+        .resume-entry-video {
+          position: absolute;
+          inset: 0;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+        @keyframes resume-entry-reveal {
+          from { clip-path: circle(0 at 50% 50%); }
+          to   { clip-path: circle(150vmax at 50% 50%); }
+        }
+
         .sc-bg-img {
           position: absolute;
           inset: 0;

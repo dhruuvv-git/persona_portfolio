@@ -1,12 +1,18 @@
-* {
+*, *::before, *::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  -webkit-user-drag: none !important;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 body {
   background: #000;
   overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
 }
 
 #menu-screen {
@@ -14,6 +20,9 @@ body {
   width: 100vw;
   height: 100vh;
   overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
 }
 
 #menu-screen video {
@@ -22,6 +31,9 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
 }
 
 #main {

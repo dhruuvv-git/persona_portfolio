@@ -177,6 +177,9 @@ export default function P3Menu({ onNavigate }) {
           position: absolute; inset: 0; z-index: 10;
           display: flex; align-items: center; justify-content: center;
           pointer-events: none;
+          user-select: none;
+          -webkit-user-select: none;
+          -webkit-user-drag: none;
         }
         .p3-menu {
           position: relative; z-index: 20;
@@ -184,6 +187,9 @@ export default function P3Menu({ onNavigate }) {
           display: flex; flex-direction: column; align-items: center;
           pointer-events: all;
           gap: 14px;
+          user-select: none;
+          -webkit-user-select: none;
+          -webkit-user-drag: none;
         }
 
         /* ── Staggered Left-Right Row ── */
@@ -197,6 +203,9 @@ export default function P3Menu({ onNavigate }) {
           text-decoration: none;
           opacity: 0;
           transition: opacity 0.38s ease, transform 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+          user-select: none;
+          -webkit-user-select: none;
+          -webkit-user-drag: none;
         }
         .p3-row.mounted {
           opacity: 1 !important;
@@ -405,11 +414,15 @@ export default function P3Menu({ onNavigate }) {
               <a
                 key={item.id}
                 href="#"
+                draggable={false}
+                onDragStart={(e) => e.preventDefault()}
                 className={`p3-row ${isActive ? "active" : ""} ${mounted ? "mounted" : ""}`}
                 style={{
                   transform: `translateX(${item.offsetX}px)`,
                   marginTop: `${item.offsetY}px`,
                   transitionDelay: mounted ? `${i * 80}ms` : "0ms",
+                  userSelect: "none",
+                  WebkitUserDrag: "none",
                 }}
                 onClick={(e) => {
                   e.preventDefault();
