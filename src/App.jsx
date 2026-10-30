@@ -1,4 +1,4 @@
-import { lazy, Suspense } from 'react'
+import { lazy, Suspense, useEffect } from 'react'
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom'
 import { AnimatePresence } from 'framer-motion'
 import mainMenuVideo from './assets/main_menu_asset_final.mp4'
@@ -7,10 +7,21 @@ import P3Menu from './P3Menu'
 import PageTransition from './PageTransition'
 import './App.css'
 
-const ResumePage = lazy(() => import('./ResumePage'))
-const Socials = lazy(() => import('./Socials'))
-const AboutMe = lazy(() => import('./AboutMe'))
-const Projects = lazy(() => import('./Projects'))
+const pageLoaders = {
+  about: () => import('./AboutMe'),
+  resume: () => import('./ResumePage'),
+  socials: () => import('./Socials'),
+  projects: () => import('./Projects'),
+}
+
+const ResumePage = lazy(pageLoaders.resume)
+const Socials = lazy(pageLoaders.socials)
+const AboutMe = lazy(pageLoaders.about)
+const Projects = lazy(pageLoaders.projects)
+
+function prefetchPage(page) {
+  pageLoaders[page]?.().catch(() => {})
+}
 
 function BackButton() {
   const location = useLocation()
@@ -48,8 +59,21 @@ function BackButton() {
 
 function MenuScreen() {
   const navigate = useNavigate()
+
+  useEffect(() => {
+    const prefetchPages = () => Object.keys(pageLoaders).forEach(prefetchPage)
+
+    if ('requestIdleCallback' in window) {
+      const idleId = window.requestIdleCallback(prefetchPages, { timeout: 1800 })
+      return () => window.cancelIdleCallback(idleId)
+    }
+
+    const timerId = window.setTimeout(prefetchPages, 1200)
+    return () => window.clearTimeout(timerId)
+  }, [])
+
   return (
-    <div id="menu-screen">
+    <div id="menu-screen" className="p3-menu-screen">
       <video
         src={mainMenuVideo}
         autoPlay
@@ -68,7 +92,7 @@ function MenuScreen() {
           pointerEvents: "none",
         }}
       />
-      <P3Menu onNavigate={(page) => {
+      <P3Menu onPrefetch={prefetchPage} onNavigate={(page) => {
         if (page === 'github') {
           window.open('https://github.com/dhruuvv-git', '_blank', 'noopener,noreferrer')
         } else {

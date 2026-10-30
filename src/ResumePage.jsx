@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import backgroundPoster from "./assets/about_bg.jpg";
 
 const ITEMS = [
   { id: "i", badge: "I", title: "EDUCATION", subtitle: "NMIMS Chandigarh / 2025–29", rank: 4 },
@@ -151,9 +152,9 @@ export default function ResumePage({ src }) {
 
   return (
     <div id="menu-screen">
-      <video src={src} autoPlay loop muted playsInline preload="auto" />
+      <video src={src} poster={backgroundPoster} autoPlay loop muted playsInline preload="metadata" />
       <div className="resume-entry-mask" aria-hidden="true">
-        <video className="resume-entry-video" src={src} autoPlay loop muted playsInline preload="auto" />
+        <video className="resume-entry-video" src={src} poster={backgroundPoster} autoPlay loop muted playsInline preload="metadata" />
       </div>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&display=swap');

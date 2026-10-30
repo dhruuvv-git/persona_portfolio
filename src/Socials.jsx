@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import bgVideo from "./assets/main3.mp4";
+import backgroundPoster from "./assets/about_bg.jpg";
 import silhouette from "./assets/p3r_silhouette_clean.png";
 
 /* ─── Oceanic Caustics Canvas for Smooth Flowing Water Animation ─── */
@@ -174,7 +175,7 @@ export default function Socials({ src }) {
   return (
     <div id="menu-screen" className="p3-socials-root">
       {/* ── Left Side: Flowing Oceanic Video Animation ── */}
-      <video className="p3-socials-video" src={src || bgVideo} autoPlay loop muted playsInline preload="auto" />
+      <video className="p3-socials-video" src={src || bgVideo} poster={backgroundPoster} autoPlay loop muted playsInline preload="metadata" />
 
       {/* ── Floating Polygonal Glass Shards ── */}
       <div className="p3-ambient-particles" aria-hidden="true">

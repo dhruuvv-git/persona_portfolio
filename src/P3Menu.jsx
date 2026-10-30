@@ -125,7 +125,7 @@ function PixelReveal() {
 }
 
 /* ─── Main Menu Component ─── */
-export default function P3Menu({ onNavigate }) {
+export default function P3Menu({ onNavigate, onPrefetch }) {
   const [active, setActive] = useState(0);
   const [mounted, setMounted] = useState(false);
   const [animKey, setAnimKey] = useState(0);
@@ -434,7 +434,12 @@ export default function P3Menu({ onNavigate }) {
                   e.preventDefault();
                   onNavigate?.(item.page);
                 }}
-                onMouseEnter={() => activate(i)}
+                onMouseEnter={() => {
+                  activate(i);
+                  onPrefetch?.(item.page);
+                }}
+                onFocus={() => onPrefetch?.(item.page)}
+                onPointerDown={() => onPrefetch?.(item.page)}
                 aria-current={isActive ? "page" : undefined}
               >
                 {/* Soft ambient glow */}

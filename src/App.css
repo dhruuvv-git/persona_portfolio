@@ -62,6 +62,10 @@ body {
     height: 100dvh;
   }
 
+  #menu-screen.p3-menu-screen > video {
+    object-position: 0% center;
+  }
+
   #root > button {
     top: max(10px, env(safe-area-inset-top)) !important;
     left: 10px !important;
@@ -72,9 +76,9 @@ body {
 
   /* Keep the Persona menu's original angled labels, sized for a phone. */
   #menu-screen .p3-name-tag {
-    top: 12px;
-    left: 16px;
-    font-size: clamp(46px, 12vw, 62px);
+    top: 0;
+    left: 52px;
+    font-size: clamp(38px, 10vw, 54px);
   }
 
   #menu-screen .p3-menu {
@@ -84,7 +88,7 @@ body {
   }
 
   #menu-screen .p3-row {
-    transform: scale(0.62) !important;
+    transform: scale(0.42) !important;
     transform-origin: center;
     margin-top: -10px !important;
   }
@@ -171,13 +175,22 @@ body {
 
   #menu-screen .sc-bar,
   #menu-screen .sc-bar-red {
-    width: 92vw;
-    height: 54px;
+    width: min(84vw, 420px);
+    height: 44px;
   }
 
   #menu-screen .sc-bar-outer.active .sc-bar,
   #menu-screen .sc-bar-outer.active .sc-bar-red {
-    height: 74px;
+    height: 58px;
+  }
+
+  #menu-screen .sc-main-top {
+    gap: 8px;
+  }
+
+  #menu-screen .sc-icon {
+    width: 24px;
+    font-size: 18px;
   }
 
   #menu-screen .sc-bar-content {
