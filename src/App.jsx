@@ -61,15 +61,7 @@ function MenuScreen() {
   const navigate = useNavigate()
 
   useEffect(() => {
-    const prefetchPages = () => Object.keys(pageLoaders).forEach(prefetchPage)
-
-    if ('requestIdleCallback' in window) {
-      const idleId = window.requestIdleCallback(prefetchPages, { timeout: 1800 })
-      return () => window.cancelIdleCallback(idleId)
-    }
-
-    const timerId = window.setTimeout(prefetchPages, 1200)
-    return () => window.clearTimeout(timerId)
+    Object.keys(pageLoaders).forEach(prefetchPage)
   }, [])
 
   return (

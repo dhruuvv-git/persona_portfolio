@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import aboutBg from "./assets/about_bg.jpg";
+import aboutBg from "./assets/about_bg.gif";
 
 /* ─── Uneven Oceanic Caustics Canvas (Left Side Flow & Shimmering Light) ─── */
 function LeftOceanicCausticsCanvas() {
