@@ -4,7 +4,6 @@ import char1 from "./assets/char1.png";
 import char2 from "./assets/char2.png";
 import char3 from "./assets/char3.png";
 import main1 from "./assets/main1.mp4";
-import backgroundPoster from "./assets/about_bg.jpg";
 import icon1 from "./assets/icon1.png";
 import icon2 from "./assets/icon2.png";
 import icon3 from "./assets/icon3.png";
@@ -247,9 +246,9 @@ export default function AboutMe({ src = main1 }) {
 
   return (
     <div id="menu-screen">
-      <video src={src || main1} poster={backgroundPoster} autoPlay loop muted playsInline preload="metadata" />
+      <video src={src || main1} autoPlay loop muted playsInline preload="auto" />
       <div className="resume-entry-mask" aria-hidden="true">
-        <video className="resume-entry-video" src={src || main1} poster={backgroundPoster} autoPlay loop muted playsInline preload="metadata" />
+        <video className="resume-entry-video" src={src || main1} autoPlay loop muted playsInline preload="auto" />
       </div>
       {revealed && <div key={`dim-${active}`} className="sc-dim" />}
       {revealed && REVEAL_CONTENT[active].greeting && (
