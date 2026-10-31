@@ -3,6 +3,7 @@ import { Routes, Route, useLocation, useNavigate } from 'react-router-dom'
 import { AnimatePresence } from 'framer-motion'
 import mainMenuVideo from './assets/main_menu_asset_final.mp4'
 import main1 from './assets/main1.mp4'
+import aboutResumeBackground from './assets/main1_loop.mp4'
 import P3Menu from './P3Menu'
 import PageTransition from './PageTransition'
 import './App.css'
@@ -107,12 +108,12 @@ function AnimatedRoutes() {
           } />
           <Route path="/about" element={
             <Suspense fallback={null}>
-              <PageTransition variant="socials"><AboutMe src={main1} /></PageTransition>
+              <PageTransition variant="socials"><AboutMe src={aboutResumeBackground} /></PageTransition>
             </Suspense>
           } />
           <Route path="/resume" element={
             <Suspense fallback={null}>
-              <PageTransition variant="socials"><ResumePage src={main1} /></PageTransition>
+              <PageTransition variant="socials"><ResumePage src={aboutResumeBackground} /></PageTransition>
             </Suspense>
           } />
           <Route path="/socials" element={
