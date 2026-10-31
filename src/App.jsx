@@ -13,6 +13,7 @@ const pageLoaders = {
   socials: () => import('./Socials'),
   projects: () => import('./Projects'),
 }
+const ROUTE_ASSET_WAIT_MS = 2500
 
 const ResumePage = lazy(pageLoaders.resume)
 const Socials = lazy(pageLoaders.socials)
@@ -70,7 +71,7 @@ function waitForMedia(element) {
         window.clearTimeout(timeout)
         resolve()
       }
-      const timeout = window.setTimeout(finish, 12000)
+      const timeout = window.setTimeout(finish, ROUTE_ASSET_WAIT_MS)
       element.addEventListener('loadeddata', finish, { once: true })
       element.addEventListener('error', finish, { once: true })
     })
@@ -87,7 +88,7 @@ function waitForMedia(element) {
       window.clearTimeout(timeout)
       resolve()
     }
-    const timeout = window.setTimeout(finish, 12000)
+    const timeout = window.setTimeout(finish, ROUTE_ASSET_WAIT_MS)
     element.addEventListener('load', finish, { once: true })
     element.addEventListener('error', finish, { once: true })
   }).then(() => element.decode?.().catch(() => {}))
@@ -111,7 +112,7 @@ function waitForRouteRoot(container) {
     const timeout = window.setTimeout(() => {
       observer.disconnect()
       resolve(findRoot())
-    }, 12000)
+    }, ROUTE_ASSET_WAIT_MS)
     observer.observe(container, { childList: true, subtree: true })
   })
 }
