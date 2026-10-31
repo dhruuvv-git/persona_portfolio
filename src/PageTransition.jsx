@@ -140,7 +140,7 @@ function DefaultTransition({ phase, onCovered, onRevealed }) {
       {DEFAULT_BLOCKS.map((color, index) => (
         <motion.div
           key={color}
-          initial={false}
+          initial={{ scaleX: 0 }}
           animate={controls[index]}
           style={{
             position: "fixed",
@@ -223,7 +223,7 @@ function SocialsTransition({ phase, onCovered, onRevealed }) {
   return (
     <>
       <motion.div
-        initial={false}
+        initial={{ clipPath: "inset(0 100% 0 0)" }}
         animate={cover}
         style={{
           position: "fixed",
@@ -238,7 +238,7 @@ function SocialsTransition({ phase, onCovered, onRevealed }) {
       {SOCIAL_STRIPES.map((stripe, index) => (
         <motion.div
           key={stripe.color}
-          initial={false}
+          initial={{ y: -1200 }}
           animate={stripeControls[index]}
           style={{
             position: "fixed",
