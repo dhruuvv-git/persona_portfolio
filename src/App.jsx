@@ -1,6 +1,5 @@
-import { lazy, Suspense, useEffect } from 'react'
+import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react'
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom'
-import { AnimatePresence } from 'framer-motion'
 import mainMenuVideo from './assets/main_menu_asset_final.mp4'
 import main1 from './assets/main1.mp4'
 import aboutResumeBackground from './assets/main1_loop.mp4'
@@ -24,18 +23,18 @@ function prefetchPage(page) {
   pageLoaders[page]?.().catch(() => {})
 }
 
-function BackButton() {
-  const location = useLocation()
+function BackButton({ pathname, disabled }) {
   const navigate  = useNavigate()
-  if (location.pathname === '/') return null
+  if (pathname === '/') return null
   return (
     <button
+      disabled={disabled}
       onClick={() => navigate('/')}
       style={{
         position: 'fixed',
         top: '18px',
         left: '18px',
-        zIndex: 9999,
+        zIndex: disabled ? 900 : 9999,
         fontFamily: "'Anton', sans-serif",
         fontSize: '18px',
         letterSpacing: '3px',
@@ -45,7 +44,7 @@ function BackButton() {
         padding: '9px 20px 9px 16px',
         clipPath: 'polygon(0 0, 100% 0, calc(100% - 10px) 100%, 0 100%)',
         cursor: 'pointer',
-        pointerEvents: 'all',
+        pointerEvents: disabled ? 'none' : 'all',
         transition: 'background 0.18s ease, color 0.18s ease',
         userSelect: 'none',
         lineHeight: 1,
@@ -56,6 +55,76 @@ function BackButton() {
       ← MENU
     </button>
   )
+}
+
+function waitForMedia(element) {
+  if (element instanceof HTMLVideoElement) {
+    if (element.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA || element.error) {
+      return Promise.resolve()
+    }
+
+    return new Promise((resolve) => {
+      const finish = () => {
+        element.removeEventListener('loadeddata', finish)
+        element.removeEventListener('error', finish)
+        window.clearTimeout(timeout)
+        resolve()
+      }
+      const timeout = window.setTimeout(finish, 12000)
+      element.addEventListener('loadeddata', finish, { once: true })
+      element.addEventListener('error', finish, { once: true })
+    })
+  }
+
+  if (element.complete) {
+    return element.decode?.().catch(() => {}) ?? Promise.resolve()
+  }
+
+  return new Promise((resolve) => {
+    const finish = () => {
+      element.removeEventListener('load', finish)
+      element.removeEventListener('error', finish)
+      window.clearTimeout(timeout)
+      resolve()
+    }
+    const timeout = window.setTimeout(finish, 12000)
+    element.addEventListener('load', finish, { once: true })
+    element.addEventListener('error', finish, { once: true })
+  }).then(() => element.decode?.().catch(() => {}))
+}
+
+function waitForRouteRoot(container) {
+  const findRoot = () => container?.querySelector('#menu-screen')
+  const existingRoot = findRoot()
+  if (existingRoot) return Promise.resolve(existingRoot)
+  if (!container) return Promise.resolve(null)
+
+  return new Promise((resolve) => {
+    const observer = new MutationObserver(() => {
+      const root = findRoot()
+      if (root) {
+        observer.disconnect()
+        window.clearTimeout(timeout)
+        resolve(root)
+      }
+    })
+    const timeout = window.setTimeout(() => {
+      observer.disconnect()
+      resolve(findRoot())
+    }, 12000)
+    observer.observe(container, { childList: true, subtree: true })
+  })
+}
+
+async function waitForRouteBackground(container) {
+  const root = await waitForRouteRoot(container)
+  if (!root) return
+
+  await Promise.all(Array.from(
+    root.querySelectorAll('video, img.sc-bg-img, img.p3-silhouette-img'),
+    waitForMedia,
+  ))
+  await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)))
 }
 
 function MenuScreen() {
@@ -98,36 +167,116 @@ function MenuScreen() {
 
 function AnimatedRoutes() {
   const location = useLocation()
+  const [displayLocation, setDisplayLocation] = useState(location)
+  const [transitionPhase, setTransitionPhase] = useState('idle')
+  const [transitionVariant, setTransitionVariant] = useState(
+    location.pathname === '/' ? 'default' : 'socials',
+  )
+  const routeHostRef = useRef(null)
+  const requestedLocationRef = useRef(location)
+  const displayLocationRef = useRef(location)
+  const transitionPhaseRef = useRef('idle')
+
+  const changeTransitionPhase = useCallback((phase) => {
+    transitionPhaseRef.current = phase
+    setTransitionPhase(phase)
+  }, [])
+
+  useEffect(() => {
+    requestedLocationRef.current = location
+
+    if (location.pathname === displayLocationRef.current.pathname) {
+      if (transitionPhaseRef.current === 'idle') {
+        displayLocationRef.current = location
+        setDisplayLocation(location)
+      }
+      return
+    }
+
+    if (transitionPhaseRef.current === 'idle') {
+      setTransitionVariant(location.pathname === '/' ? 'default' : 'socials')
+      changeTransitionPhase('covering')
+    } else if (transitionPhaseRef.current === 'revealing') {
+      setTransitionVariant(location.pathname === '/' ? 'default' : 'socials')
+      changeTransitionPhase('covering')
+    }
+  }, [location, changeTransitionPhase])
+
+  const handleCovered = useCallback(() => {
+    const nextLocation = requestedLocationRef.current
+    displayLocationRef.current = nextLocation
+    setDisplayLocation(nextLocation)
+    changeTransitionPhase('covered')
+  }, [changeTransitionPhase])
+
+  const handleRevealed = useCallback(() => {
+    changeTransitionPhase('idle')
+  }, [changeTransitionPhase])
+
+  useEffect(() => {
+    if (transitionPhase !== 'covered') return undefined
+    let cancelled = false
+
+    const revealWhenReady = async () => {
+      if (location.pathname !== displayLocation.pathname) {
+        displayLocationRef.current = location
+        setDisplayLocation(location)
+        return
+      }
+
+      await waitForRouteBackground(routeHostRef.current)
+      if (cancelled) return
+
+      if (requestedLocationRef.current.pathname !== displayLocationRef.current.pathname) {
+        const nextLocation = requestedLocationRef.current
+        displayLocationRef.current = nextLocation
+        setDisplayLocation(nextLocation)
+        return
+      }
+
+      changeTransitionPhase('revealing')
+    }
+
+    revealWhenReady()
+    return () => { cancelled = true }
+  }, [transitionPhase, displayLocation, location, changeTransitionPhase])
+
   return (
     <>
-      <BackButton />
-      <AnimatePresence mode="wait">
-        <Routes location={location} key={location.pathname}>
+      <BackButton pathname={displayLocation.pathname} disabled={transitionPhase !== 'idle'} />
+      <div ref={routeHostRef}>
+        <Routes location={displayLocation}>
           <Route path="/" element={
-            <PageTransition variant="default"><MenuScreen /></PageTransition>
+            <MenuScreen />
           } />
           <Route path="/about" element={
             <Suspense fallback={null}>
-              <PageTransition variant="socials"><AboutMe src={aboutResumeBackground} /></PageTransition>
+              <AboutMe src={aboutResumeBackground} />
             </Suspense>
           } />
           <Route path="/resume" element={
             <Suspense fallback={null}>
-              <PageTransition variant="socials"><ResumePage src={aboutResumeBackground} /></PageTransition>
+              <ResumePage src={aboutResumeBackground} />
             </Suspense>
           } />
           <Route path="/socials" element={
             <Suspense fallback={null}>
-              <PageTransition variant="socials"><Socials src={main1} /></PageTransition>
+              <Socials src={main1} />
             </Suspense>
           } />
           <Route path="/projects" element={
             <Suspense fallback={null}>
-              <PageTransition variant="socials"><Projects /></PageTransition>
+              <Projects />
             </Suspense>
           } />
         </Routes>
-      </AnimatePresence>
+      </div>
+      <PageTransition
+        variant={transitionVariant}
+        phase={transitionPhase}
+        onCovered={handleCovered}
+        onRevealed={handleRevealed}
+      />
     </>
   )
 }

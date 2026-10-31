@@ -1,154 +1,271 @@
-import { motion, AnimatePresence } from "framer-motion";
-import { useLocation } from "react-router-dom";
+import { useEffect, useMemo, useState } from "react";
+import { motion, useAnimationControls } from "framer-motion";
+import transitionArt from "./assets/transition.jpg";
 
-const defaultBlocks = ["#0d1a3a", "#1a6aff", "#7dd4fc"];
+const DEFAULT_BLOCKS = ["#0d1a3a", "#1a6aff", "#7dd4fc"];
+const SOCIAL_STRIPES = [
+  { color: "#000000", left: "72vw", width: "24vw", delay: 0 },
+  { color: "#00dff7", left: "80vw", width: "14vw", delay: 0.06 },
+  { color: "#ffffff", left: "88vw", width: "8vw", delay: 0.12 },
+];
+const TRANSITION_DURATION = 0.48;
+const TRANSITION_EASE = [0.76, 0, 0.24, 1];
 
-function DefaultTransition() {
-  return defaultBlocks.map((color, i) => (
-    <motion.div
-      key={i}
-      style={{
-        position: "fixed",
-        inset: 0,
-        background: color,
-        zIndex: 999 - i,
-        originX: 0,
-      }}
-      initial={{ scaleX: 0 }}
-      animate={{ scaleX: [0, 1, 1, 0] }}
-      transition={{
-        duration: 0.45,
-        delay: i * 0.05,
-        times: [0, 0.4, 0.6, 1],
-        ease: [0.76, 0, 0.24, 1],
-      }}
-    />
-  ));
+function curtainArtwork(color) {
+  return {
+    backgroundColor: color,
+    backgroundImage: `linear-gradient(135deg, rgba(0, 71, 255, 0.32), rgba(60, 226, 255, 0.12) 48%, ${color}99), url(${transitionArt})`,
+    backgroundPosition: "center, center",
+    backgroundSize: "cover, cover",
+    filter: "saturate(1.55) contrast(1.12)",
+  };
 }
 
-function AboutTransition() {
-  const panels = [
-    { color: "#00184c", top: "-12vh", left: "-18vw", width: "86vw", delay: 0 },
-    { color: "#53edff", top: "24vh", left: "-10vw", width: "72vw", delay: 0.05 },
-    { color: "#ffffff", top: "58vh", left: "-14vw", width: "82vw", delay: 0.1 },
-  ];
+function LocalDateClock() {
+  const [now, setNow] = useState(() => new Date());
 
-  return panels.map((panel, i) => (
-    <motion.div
-      key={i}
-      style={{
-        position: "fixed",
-        top: panel.top,
-        left: panel.left,
-        width: panel.width,
-        height: "26vh",
-        background: panel.color,
-        zIndex: 999 - i,
-        clipPath: "polygon(0 0, 100% 0, calc(100% - 120px) 100%, 0 100%)",
-        transform: "rotate(-18deg)",
-        transformOrigin: "left center",
-      }}
-      initial={{ x: -500, opacity: 0 }}
-      animate={{ x: [-500, 20, 0], opacity: [1, 1, 0] }}
-      transition={{
-        duration: 0.52,
-        delay: panel.delay,
-        times: [0, 0.68, 1],
-        ease: [0.22, 1, 0.36, 1],
-      }}
-    />
-  ));
-}
+  useEffect(() => {
+    let intervalId;
+    const firstUpdate = window.setTimeout(() => {
+      setNow(new Date());
+      intervalId = window.setInterval(() => setNow(new Date()), 60_000);
+    }, 60_000 - (Date.now() % 60_000));
 
+    return () => {
+      window.clearTimeout(firstUpdate);
+      window.clearInterval(intervalId);
+    };
+  }, []);
 
-function SocialsTransition() {
-  const stripes = [
-    { color: "#00184c", left: "72vw", width: "24vw", delay: 0 },
-    { color: "#00dff7", left: "80vw", width: "14vw", delay: 0.06 },
-    { color: "#ffffff", left: "88vw", width: "8vw", delay: 0.12 },
-  ];
-
-  return stripes.map((stripe, i) => (
-    <motion.div
-      key={i}
-      style={{
-        position: "fixed",
-        top: "-6vh",
-        left: stripe.left,
-        width: stripe.width,
-        height: "112vh",
-        background: stripe.color,
-        zIndex: 999 - i,
-        transform: "skewX(-16deg)",
-        transformOrigin: "top",
-      }}
-      initial={{ y: -1200, opacity: 1 }}
-      animate={{ y: [-1200, 0, 0, 1200] }}
-      transition={{
-        duration: 0.56,
-        delay: stripe.delay,
-        times: [0, 0.42, 0.58, 1],
-        ease: [0.76, 0, 0.24, 1],
-      }}
-    />
-  ));
-}
-
-function TransitionOverlay({ variant }) {
-  if (variant === "default" || variant === "menu") return <DefaultTransition />;
-  return <SocialsTransition />;
-}
-
-function ResumeTransition() {
-  const cards = [
-    { top: "14vh", color: "#0f1760", delay: 0 },
-    { top: "31vh", color: "#7ff6ff", delay: 0.05 },
-    { top: "48vh", color: "#ffffff", delay: 0.1 },
-    { top: "65vh", color: "#0f1760", delay: 0.15 },
-  ];
-
-  return cards.map((card, i) => (
-    <motion.div
-      key={i}
-      style={{
-        position: "fixed",
-        left: "-6vw",
-        top: card.top,
-        width: "78vw",
-        height: "14vh",
-        background: card.color,
-        zIndex: 999 - i,
-        clipPath: "polygon(0 0, 97% 0, 100% 100%, 3% 100%)",
-        boxShadow: card.color === "#ffffff" ? "10px 0 0 #d63232" : "none",
-      }}
-      initial={{ x: -900, opacity: 1 }}
-      animate={{ x: [-900, 30, 0, 900] }}
-      transition={{
-        duration: 0.6,
-        delay: card.delay,
-        times: [0, 0.48, 0.7, 1],
-        ease: [0.76, 0, 0.24, 1],
-      }}
-    />
-  ));
-}
-
-export default function PageTransition({ children, variant = "socials" }) {
-  const location = useLocation();
+  const weekday = new Intl.DateTimeFormat(undefined, { weekday: "long" }).format(now);
+  const day = new Intl.DateTimeFormat(undefined, { day: "2-digit" }).format(now);
+  const month = new Intl.DateTimeFormat(undefined, { month: "long" }).format(now);
+  const year = new Intl.DateTimeFormat(undefined, { year: "numeric" }).format(now);
+  const time = new Intl.DateTimeFormat(undefined, { hour: "2-digit", minute: "2-digit" }).format(now);
 
   return (
-    <AnimatePresence mode="wait">
-      <motion.div key={location.pathname} style={{ position: "relative" }}>
-        <TransitionOverlay variant={variant} />
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.2, delay: 0.18 }}
-        >
-          {children}
-        </motion.div>
-      </motion.div>
-    </AnimatePresence>
+    <div
+      role="group"
+      aria-label={`${weekday}, ${month} ${year} ${day}; ${time}`}
+      style={{
+        position: "absolute",
+        inset: 0,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: "clamp(8px, 1.4vh, 18px)",
+        padding: "12px 6px",
+        background: "#000000",
+        fontFamily: "'Anton', sans-serif",
+        textAlign: "center",
+        textTransform: "uppercase",
+        whiteSpace: "nowrap",
+        transform: "skewX(16deg)",
+        pointerEvents: "none",
+        userSelect: "none",
+      }}
+    >
+      <span style={{ color: "#ffffff", fontSize: "clamp(12px, 2vh, 20px)", letterSpacing: "2px" }}>
+        {weekday}
+      </span>
+      <span style={{ color: "#0047ff", fontSize: "clamp(48px, 7vw, 112px)", lineHeight: 0.82 }}>
+        {day}
+      </span>
+      <span style={{ color: "#477dff", fontSize: "clamp(10px, 1.3vw, 20px)", letterSpacing: "1px", lineHeight: 1.05 }}>
+        {month}
+        <br />
+        {year}
+      </span>
+      <span style={{ color: "#ffffff", fontSize: "clamp(14px, 1.6vw, 28px)", letterSpacing: "1px" }}>
+        {time}
+      </span>
+    </div>
   );
+}
+
+function DefaultTransition({ phase, onCovered, onRevealed }) {
+  const first = useAnimationControls();
+  const second = useAnimationControls();
+  const third = useAnimationControls();
+  const controls = useMemo(() => [first, second, third], [first, second, third]);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    if (phase === "covering") {
+      controls.forEach((control) => control.set({ scaleX: 0, transformOrigin: "left center" }));
+      Promise.all([
+        ...controls.map((control, index) => control.start({
+          scaleX: 1,
+          transition: {
+            duration: TRANSITION_DURATION,
+            delay: index * 0.03,
+            ease: TRANSITION_EASE,
+          },
+        })),
+      ]).then(() => {
+        if (!cancelled) onCovered();
+      });
+    }
+
+    if (phase === "revealing") {
+      Promise.all([
+        ...controls.map((control, index) => control.start({
+          scaleX: 0,
+          transformOrigin: "right center",
+          transition: {
+            duration: TRANSITION_DURATION,
+            delay: (controls.length - index - 1) * 0.03,
+            ease: TRANSITION_EASE,
+          },
+        })),
+      ]).then(() => {
+        if (!cancelled) onRevealed();
+      });
+    }
+
+    if (phase === "idle") {
+      controls.forEach((control) => control.set({ scaleX: 0, transformOrigin: "left center" }));
+    }
+
+    return () => {
+      cancelled = true;
+      controls.forEach((control) => control.stop());
+    };
+  }, [phase, onCovered, onRevealed]);
+
+  return (
+    <>
+      {DEFAULT_BLOCKS.map((color, index) => (
+        <motion.div
+          key={color}
+          initial={false}
+          animate={controls[index]}
+          style={{
+            position: "fixed",
+            inset: 0,
+            background: color,
+            zIndex: 999 - index,
+            transformOrigin: "left center",
+            pointerEvents: "auto",
+          }}
+        />
+      ))}
+    </>
+  );
+}
+
+function SocialsTransition({ phase, onCovered, onRevealed }) {
+  const cover = useAnimationControls();
+  const first = useAnimationControls();
+  const second = useAnimationControls();
+  const third = useAnimationControls();
+  const stripeControls = useMemo(() => [first, second, third], [first, second, third]);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    if (phase === "covering") {
+      cover.set({ clipPath: "inset(0 100% 0 0)", backgroundPosition: "42% 54%" });
+      stripeControls.forEach((control) => control.set({ y: -1200 }));
+      Promise.all([
+        cover.start({
+          clipPath: "inset(0 0% 0 0)",
+          backgroundPosition: "61% 46%",
+          transition: { duration: 0.48, ease: TRANSITION_EASE },
+        }),
+        ...stripeControls.map((control, index) => control.start({
+          y: 0,
+          transition: {
+            duration: TRANSITION_DURATION,
+            delay: SOCIAL_STRIPES[index].delay,
+            ease: TRANSITION_EASE,
+          },
+        })),
+      ]).then(() => {
+        if (!cancelled) onCovered();
+      });
+    }
+
+    if (phase === "revealing") {
+      Promise.all([
+        cover.start({
+          clipPath: "inset(0 0 0 100%)",
+          backgroundPosition: "38% 52%",
+          transition: { duration: 0.48, ease: TRANSITION_EASE },
+        }),
+        ...stripeControls.map((control, index) => control.start({
+          y: 1200,
+          transition: {
+            duration: TRANSITION_DURATION,
+            delay: SOCIAL_STRIPES[index].delay,
+            ease: TRANSITION_EASE,
+          },
+        })),
+      ]).then(() => {
+        if (!cancelled) onRevealed();
+      });
+    }
+
+    if (phase === "idle") {
+      cover.set({ clipPath: "inset(0 100% 0 0)", backgroundPosition: "center, center" });
+      stripeControls.forEach((control) => control.set({ y: -1200 }));
+    }
+
+    return () => {
+      cancelled = true;
+      cover.stop();
+      stripeControls.forEach((control) => control.stop());
+    };
+  }, [phase, onCovered, onRevealed]);
+
+  return (
+    <>
+      <motion.div
+        initial={false}
+        animate={cover}
+        style={{
+          position: "fixed",
+          inset: 0,
+          ...curtainArtwork("#00184c"),
+          zIndex: 997,
+          clipPath: "inset(0 100% 0 0)",
+          willChange: "clip-path, background-position",
+          pointerEvents: "auto",
+        }}
+      />
+      {SOCIAL_STRIPES.map((stripe, index) => (
+        <motion.div
+          key={stripe.color}
+          initial={false}
+          animate={stripeControls[index]}
+          style={{
+            position: "fixed",
+            top: "-6vh",
+            left: stripe.left,
+            width: stripe.width,
+            height: "112vh",
+            background: stripe.color,
+            zIndex: 1000 - index,
+            transform: "skewX(-16deg)",
+            transformOrigin: "top",
+            pointerEvents: "auto",
+          }}
+        >
+          {index === 0 && (
+            <LocalDateClock />
+          )}
+        </motion.div>
+      ))}
+    </>
+  );
+}
+
+export default function PageTransition({ variant, phase, onCovered, onRevealed }) {
+  if (variant === "default") {
+    return <DefaultTransition phase={phase} onCovered={onCovered} onRevealed={onRevealed} />;
+  }
+
+  return <SocialsTransition phase={phase} onCovered={onCovered} onRevealed={onRevealed} />;
 }
