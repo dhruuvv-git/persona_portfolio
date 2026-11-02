@@ -480,7 +480,7 @@ export default function Projects() {
           gap: 10px; margin-top: 18px;
         }
         .resume-detail-row {
-          display: grid; grid-template-columns: 1fr auto;
+          display: flex; justify-content: space-between; align-items: center;
           align-items: center; gap: 14px;
           min-height: 48px; padding: 0 14px;
           background: rgba(8, 18, 72, 0.96);
@@ -494,6 +494,7 @@ export default function Projects() {
           font-family: 'Anton', sans-serif; font-size: 22px; line-height: 1; color: #f2fcff;
         }
         .resume-detail-status {
+          flex-shrink: 0;
           font-family: 'Bebas Neue', sans-serif; font-size: 18px; line-height: 1; letter-spacing: 1.1px;
           color: #06133b; background: #8df6ff;
           padding: 6px 10px;
