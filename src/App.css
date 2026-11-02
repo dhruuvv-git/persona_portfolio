@@ -45,7 +45,7 @@ body {
   height: 100vh;
 }
 
-@media (max-width: 700px) {
+@media (max-width: 768px) {
   html,
   body,
   #root {
@@ -60,357 +60,377 @@ body {
     width: 100%;
     height: 100vh;
     height: 100dvh;
+    overflow: hidden;
   }
 
-  #menu-screen.p3-menu-screen > video {
-    object-position: 0% center;
+  /* Keep videos properly centered on mobile so backgrounds aren't cropped */
+  #menu-screen video,
+  #menu-screen.p3-menu-screen > video,
+  #menu-screen.p3-socials-root .p3-socials-video {
+    object-position: center center;
   }
 
+  /* Back Button - stylish compact Persona button */
   #root > button {
     top: max(10px, env(safe-area-inset-top)) !important;
     left: 10px !important;
-    font-size: 15px !important;
+    font-size: 13px !important;
     letter-spacing: 1.5px !important;
-    padding: 8px 14px !important;
+    padding: 6px 14px 6px 12px !important;
+    z-index: 9999 !important;
   }
 
-  /* Keep the Persona menu's original angled labels, sized for a phone. */
+  /* ── 1. Main Menu Screen ── */
   #menu-screen .p3-name-tag {
-    top: 0;
-    left: 52px;
-    font-size: clamp(38px, 10vw, 54px);
+    top: max(8px, env(safe-area-inset-top));
+    left: 20px;
+    font-size: clamp(32px, 8vw, 44px);
+    transform: rotate(14deg);
   }
 
   #menu-screen .p3-menu {
     width: 100%;
-    gap: 0;
-    padding: 18px 8px;
+    padding: 10px 4px;
+    gap: 12px;
+    transform: scale(0.64);
+    transform-origin: center center;
   }
 
-  #menu-screen .p3-row {
-    transform: scale(0.42) !important;
-    transform-origin: center;
-    margin-top: -10px !important;
-  }
-
-  /* Keep the About page's portrait, info panel, and selection bars together. */
-  #menu-screen .sc-main-portrait-shell {
-    z-index: 11;
-    top: 7dvh;
-    right: -8vw;
-    width: 48vw;
-    height: 48dvh;
-    opacity: 0.62;
-  }
-
-  #menu-screen .sc-main-portrait-shell.mounted {
-    opacity: 0.62;
-  }
-
-  #menu-screen .sc-reveal-panel {
-    top: 20dvh;
-    left: 4vw;
-    width: 92vw;
-    height: 48dvh;
-    transform: translateX(-40px) rotate(-3deg);
-    transform-origin: center;
-  }
-
-  #menu-screen .sc-reveal-panel.mounted {
-    animation: sc-mobile-panel-in 0.46s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-  }
-
-  @keyframes sc-mobile-panel-in {
-    from { opacity: 0; transform: translateY(14px) rotate(-3deg) scale(0.98); }
-    to { opacity: 0.92; transform: translateY(0) rotate(-3deg) scale(1); }
-  }
-
-  #menu-screen .sc-reveal-greeting {
-    top: 11dvh;
-    left: 50%;
-    width: 90vw;
-    white-space: normal;
-    text-align: center;
-    font-size: clamp(15px, 4vw, 18px);
-    letter-spacing: 1px;
-    animation: sc-mobile-greeting-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-  }
-
-  @keyframes sc-mobile-greeting-in {
-    from { opacity: 0; transform: translateX(-50%) translateY(-6px); }
-    to { opacity: 1; transform: translateX(-50%) translateY(0); }
-  }
-
-  #menu-screen .sc-reveal-upper-bar {
-    height: 46%;
-    gap: 7px;
-  }
-
-  #menu-screen .sc-reveal-upper-line {
-    padding: 0 16px;
-    font-size: 14px;
-  }
-
-  #menu-screen .sc-reveal-upper-heading {
-    font-size: 12px;
-    letter-spacing: 2px;
-  }
-
-  #menu-screen .sc-reveal-lower-bar {
-    top: 72%;
-    width: 82%;
-    height: 20%;
-    padding: 6px 14px;
-    font-size: 12px;
-    line-height: 1.2;
-  }
-
+  /* ── 2. About Me Submenu ── */
+  /* Keep buttons on left, compact and Persona-styled, not stretched full-screen */
   #menu-screen .sc-root {
-    top: auto;
-    right: 0;
-    bottom: max(18px, env(safe-area-inset-bottom));
-    align-items: center;
-    gap: 5px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 48vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
+    z-index: 6;
+    pointer-events: none;
   }
 
   #menu-screen .sc-bar,
   #menu-screen .sc-bar-red {
-    width: min(84vw, 420px);
-    height: 44px;
+    width: 48vw;
+    height: 48px;
   }
 
   #menu-screen .sc-bar-outer.active .sc-bar,
   #menu-screen .sc-bar-outer.active .sc-bar-red {
-    height: 58px;
-  }
-
-  #menu-screen .sc-main-top {
-    gap: 8px;
-  }
-
-  #menu-screen .sc-icon {
-    width: 24px;
-    font-size: 18px;
+    height: 64px;
   }
 
   #menu-screen .sc-bar-content {
-    padding: 0 12px;
+    padding: 0 8px;
   }
 
   #menu-screen .sc-role {
-    padding: 0 6px;
-    font-size: 25px;
+    font-size: 22px;
     letter-spacing: -1px;
+    padding: 0 4px 0 2px;
   }
 
   #menu-screen .sc-main {
-    padding-left: 28px;
+    padding-left: 24px;
+    gap: 1px;
+  }
+
+  #menu-screen .sc-main-top {
+    gap: 6px;
+  }
+
+  #menu-screen .sc-icon {
+    width: 18px;
+    font-size: 14px;
   }
 
   #menu-screen .sc-label {
-    font-size: 19px;
-    letter-spacing: 2px;
+    font-size: 15px;
+    letter-spacing: 1.5px;
   }
 
   #menu-screen .sc-char {
-    left: 54px;
-    max-width: 48px;
+    left: 42px;
+    max-width: 40px;
   }
 
-  /* Resume page: category cards stay above a full-width, scrollable detail panel. */
+  /* Dhruv portrait on the right, fully visible side-by-side like PC */
+  #menu-screen .sc-main-portrait-shell {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 52vw;
+    height: 100vh;
+    opacity: 0.96;
+    z-index: 5;
+    pointer-events: none;
+  }
+
+  #menu-screen .sc-main-portrait-shell.mounted {
+    opacity: 0.96;
+  }
+
+  /* Reveal panel info on About Me */
+  #menu-screen .sc-reveal-greeting {
+    top: max(40px, 5vh);
+    left: 4vw;
+    font-size: 13px;
+    letter-spacing: 1px;
+    white-space: normal;
+    max-width: 90vw;
+  }
+
+  #menu-screen .sc-reveal-panel {
+    top: max(68px, 10vh);
+    left: 4vw;
+    width: 92vw;
+    height: 80vh;
+    transform: rotate(-10deg);
+    transform-origin: left 60%;
+  }
+
+  #menu-screen .sc-reveal-upper-bar {
+    height: 48%;
+    gap: 6px;
+  }
+
+  #menu-screen .sc-reveal-upper-line {
+    font-size: 11px;
+    padding: 0 14px;
+    line-height: 1.25;
+  }
+
+  #menu-screen .sc-reveal-upper-heading {
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    margin-top: 4px;
+  }
+
+  #menu-screen .sc-reveal-lower-bar {
+    top: 70%;
+    width: 68%;
+    height: 14%;
+    font-size: 10px;
+    padding-left: 12px;
+  }
+
+  /* ── 3. Resume Submenu ── */
+  /* Side-by-side layout: left buttons/cards + right detail panel, background visible */
   #menu-screen .resume-stack {
-    top: 54px;
-    left: 12px;
-    width: calc(100% - 24px);
-    max-height: 27vh;
+    position: absolute;
+    top: max(48px, 7vh);
+    left: 2vw;
+    width: 46vw;
+    max-height: 86vh;
+    gap: 8px;
+    padding: 0 4px 10px 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    transform: none;
+    pointer-events: auto;
+    z-index: 10;
+  }
+
+  #menu-screen .resume-list-tag {
+    font-size: 30px;
+    line-height: 0.9;
+    letter-spacing: 1.5px;
+    margin: 0 0 4px 4px;
+  }
+
+  #menu-screen .resume-card {
+    height: 60px;
+  }
+
+  #menu-screen .resume-card-inner {
+    padding: 4px 6px 4px 34px;
+    align-items: center;
+  }
+
+  #menu-screen .resume-badge {
+    top: 5px;
+    left: -4px;
+    width: 30px;
+    height: 38px;
+    border-width: 2px;
+  }
+
+  #menu-screen .resume-badge-text {
+    font-size: 20px;
+  }
+
+  #menu-screen .resume-title {
+    font-size: 18px;
+    line-height: 0.95;
+    letter-spacing: 0.5px;
+  }
+
+  #menu-screen .resume-rank {
+    gap: 3px;
+  }
+
+  #menu-screen .resume-rank-label {
+    font-size: 10px;
+    letter-spacing: 1px;
+  }
+
+  #menu-screen .resume-rank-number {
+    font-size: 24px;
+  }
+
+  #menu-screen .resume-subtitle-bar {
+    left: 32px;
+    right: 4px;
+    bottom: 4px;
+    height: 16px;
+    padding: 0 6px;
+  }
+
+  #menu-screen .resume-subtitle {
+    font-size: 10px;
+    letter-spacing: 0.5px;
+  }
+
+  /* Detail Panel on Right Side */
+  #menu-screen .resume-detail-panel {
+    position: absolute;
+    top: max(48px, 7vh);
+    right: 2vw;
+    left: auto;
+    bottom: auto;
+    width: 48vw;
+    max-height: 86vh;
+    padding: 10px 10px 14px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    pointer-events: auto;
+    z-index: 12;
+    background: linear-gradient(180deg, rgba(15, 28, 105, 0.92) 0%, rgba(8, 16, 68, 0.94) 100%);
+  }
+
+  #menu-screen .resume-detail-top {
+    grid-template-columns: 28px minmax(0, 1fr) auto;
     gap: 5px;
-    padding: 0 6px 6px 0;
+    min-height: 48px;
+    padding: 0 8px;
+    margin-bottom: 8px;
+  }
+
+  #menu-screen .resume-detail-top-index {
+    font-size: 22px;
+  }
+
+  #menu-screen .resume-detail-top-title {
+    font-size: 18px;
+  }
+
+  #menu-screen .resume-detail-top-progress {
+    font-size: 16px;
+    letter-spacing: 1px;
+  }
+
+  #menu-screen .resume-section-header {
+    font-size: 16px;
+    letter-spacing: 1px;
+    margin: 8px 0 4px 2px;
+  }
+
+  #menu-screen .resume-detail-row {
+    grid-template-columns: 20px minmax(0, 1fr) auto;
+    gap: 5px;
+    min-height: 36px;
+    padding: 4px 6px;
+  }
+
+  #menu-screen .resume-detail-row-index {
+    font-size: 14px;
+  }
+
+  #menu-screen .resume-detail-row-label {
+    font-size: 10px;
+    letter-spacing: 0.5px;
+  }
+
+  #menu-screen .resume-detail-row-title {
+    font-size: 13px;
+  }
+
+  #menu-screen .resume-detail-row-desc {
+    font-size: 10px;
+    line-height: 1.25;
+  }
+
+  #menu-screen .resume-detail-status {
+    font-size: 9px;
+    padding: 3px 5px;
+  }
+
+  #menu-screen .resume-detail-bottom {
+    margin-top: 8px;
+    padding: 8px;
+  }
+
+  #menu-screen .resume-detail-bottom-title {
+    font-size: 14px;
+    margin-bottom: 4px;
+  }
+
+  #menu-screen .resume-detail-bullet {
+    font-size: 11px;
+    line-height: 1.3;
+  }
+
+  #menu-screen .resume-detail-tag {
+    font-size: 10px;
+    padding: 2px 5px;
+  }
+
+  #menu-screen .resume-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+  }
+
+  #menu-screen .resume-open-link,
+  #menu-screen .resume-visit-link {
+    font-size: 11px;
+    letter-spacing: 1px;
+    padding: 5px 9px;
+  }
+
+  /* ── 4. Projects Submenu ── */
+  /* Side-by-side like PC: vertical scroll list on left, detail on right */
+  #menu-screen:has(.resume-card-wrap:nth-of-type(8)) .resume-stack,
+  #menu-screen .resume-stack:has(.resume-card-wrap:nth-of-type(8)) {
+    position: absolute;
+    top: max(48px, 6vh);
+    left: 2vw;
+    right: auto;
+    width: 46vw;
+    height: auto;
+    max-height: 88vh;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+    padding: 0 4px 10px 0;
     overflow-y: auto;
     overflow-x: hidden;
     transform: none;
     pointer-events: auto;
   }
 
-  #menu-screen .resume-list-tag {
-    font-size: 34px;
-    margin: 0 0 2px 6px;
-  }
-
-  #menu-screen .resume-card {
-    height: 52px;
-  }
-
-  #menu-screen .resume-card-inner {
-    padding: 4px 10px 4px 40px;
-    align-items: center;
-  }
-
-  #menu-screen .resume-badge {
-    top: 5px;
-    left: -5px;
-    width: 36px;
-    height: 42px;
-    border-width: 2px;
-  }
-
-  #menu-screen .resume-badge-text {
-    font-size: 25px;
-  }
-
-  #menu-screen .resume-title {
-    font-size: 23px;
-  }
-
-  #menu-screen .resume-rank {
-    gap: 4px;
-  }
-
-  #menu-screen .resume-rank-label {
-    font-size: 13px;
-    letter-spacing: 1px;
-  }
-
-  #menu-screen .resume-rank-number {
-    font-size: 30px;
-  }
-
-  #menu-screen .resume-subtitle-bar {
-    left: 42px;
-    right: 8px;
-    bottom: 4px;
-    height: 17px;
-    padding: 0 8px;
-  }
-
-  #menu-screen .resume-subtitle {
-    font-size: 13px;
-    letter-spacing: 0.5px;
-  }
-
-  #menu-screen .resume-detail-panel {
-    top: 36vh;
-    right: 10px;
-    bottom: max(10px, env(safe-area-inset-bottom));
-    left: 10px;
-    width: auto;
-    min-height: 0;
-    max-height: none;
-    padding: 10px 12px 14px;
-    overflow-y: auto;
-    overflow-x: hidden;
-  }
-
-  #menu-screen .resume-detail-top {
-    grid-template-columns: 38px minmax(0, 1fr) auto;
-    gap: 6px;
-    min-height: 60px;
-    padding: 0 10px;
-    margin-bottom: 10px;
-  }
-
-  #menu-screen .resume-detail-top-index {
-    font-size: 28px;
-  }
-
-  #menu-screen .resume-detail-top-title {
-    font-size: 21px;
-  }
-
-  #menu-screen .resume-detail-top-progress {
-    font-size: 18px;
-    letter-spacing: 1px;
-  }
-
-  #menu-screen .resume-section-header {
-    font-size: 20px;
-    margin: 12px 0 6px 2px;
-  }
-
-  #menu-screen .resume-detail-row {
-    grid-template-columns: 30px minmax(0, 1fr) auto;
-    gap: 7px;
-    min-height: 44px;
-    padding: 5px 8px;
-  }
-
-  #menu-screen .resume-detail-row-index {
-    font-size: 19px;
-  }
-
-  #menu-screen .resume-detail-row-label {
-    font-size: 12px;
-    letter-spacing: 1px;
-  }
-
-  #menu-screen .resume-detail-row-title {
-    font-size: 17px;
-  }
-
-  #menu-screen .resume-detail-row-desc {
-    font-size: 12px;
-  }
-
-  #menu-screen .resume-detail-status {
-    font-size: 13px;
-    padding: 5px 7px;
-  }
-
-  #menu-screen .resume-detail-bottom {
-    margin-top: 12px;
-    padding: 12px;
-  }
-
-  #menu-screen .resume-detail-bottom-title {
-    font-size: 21px;
-    margin-bottom: 8px;
-  }
-
-  #menu-screen .resume-detail-bullet {
-    font-size: 15px;
-  }
-
-  #menu-screen .resume-detail-tag {
-    font-size: 15px;
-  }
-
-  #menu-screen .resume-actions {
-    gap: 8px;
-    margin-top: 12px;
-  }
-
-  #menu-screen .resume-open-link,
-  #menu-screen .resume-visit-link {
-    font-size: 16px;
-    padding: 7px 12px;
-  }
-
-  /* Projects page: browse the project cards horizontally, then read details below. */
-  #menu-screen .resume-stack:has(.resume-card-wrap:nth-of-type(8)) {
-    top: 54px;
-    left: 12px;
-    right: 12px;
-    width: auto;
-    height: 92px;
-    max-height: 92px;
-    flex-direction: row;
-    align-items: flex-end;
-    gap: 8px;
-    padding: 34px 2px 8px;
-    overflow-x: auto;
-    overflow-y: hidden;
-    transform: none;
-  }
-
   #menu-screen .resume-stack:has(.resume-card-wrap:nth-of-type(8)) .resume-list-tag {
-    position: absolute;
-    top: 0;
-    left: 0;
-    font-size: 30px;
-    margin: 0;
+    position: static;
+    font-size: 28px;
+    margin: 0 0 2px 4px;
   }
 
   #menu-screen .resume-stack:has(.resume-card-wrap:nth-of-type(8)) .resume-card-wrap {
-    flex: 0 0 135px;
+    flex: none;
   }
 
   #menu-screen .resume-stack:has(.resume-card-wrap:nth-of-type(8)) .resume-card {
@@ -418,168 +438,196 @@ body {
   }
 
   #menu-screen .resume-stack:has(.resume-card-wrap:nth-of-type(8)) .resume-card-inner {
-    padding: 3px 6px 3px 34px;
+    padding: 3px 6px 3px 30px;
   }
 
   #menu-screen .resume-stack:has(.resume-card-wrap:nth-of-type(8)) .resume-badge {
-    top: 5px;
+    top: 4px;
     left: -4px;
-    width: 31px;
-    height: 38px;
+    width: 26px;
+    height: 32px;
+    border-width: 2px;
   }
 
   #menu-screen .resume-stack:has(.resume-card-wrap:nth-of-type(8)) .resume-badge-text {
-    font-size: 20px;
+    font-size: 15px;
   }
 
   #menu-screen .resume-stack:has(.resume-card-wrap:nth-of-type(8)) .resume-title {
-    max-width: 72px;
-    overflow: hidden;
+    max-width: none;
     font-size: 14px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    white-space: normal;
   }
 
   #menu-screen .resume-stack:has(.resume-card-wrap:nth-of-type(8)) .resume-rank-label {
-    display: none;
+    display: inline;
+    font-size: 9px;
   }
 
   #menu-screen .resume-stack:has(.resume-card-wrap:nth-of-type(8)) .resume-rank-number {
-    font-size: 22px;
+    font-size: 18px;
   }
 
   #menu-screen .resume-stack:has(.resume-card-wrap:nth-of-type(8)) .resume-subtitle-bar {
-    left: 34px;
-    right: 5px;
+    left: 28px;
+    right: 4px;
     bottom: 3px;
-    height: 15px;
-    padding: 0 5px;
+    height: 13px;
+    padding: 0 4px;
   }
 
   #menu-screen .resume-stack:has(.resume-card-wrap:nth-of-type(8)) .resume-subtitle {
-    font-size: 10px;
+    font-size: 9px;
   }
 
   #menu-screen:has(.resume-stack .resume-card-wrap:nth-of-type(8)) .resume-detail-panel {
-    top: 154px;
-    right: 10px;
-    bottom: max(10px, env(safe-area-inset-bottom));
-    left: 10px;
-    width: auto;
-    min-height: 0;
-    max-height: none;
-    padding: 12px;
+    position: absolute;
+    top: max(48px, 6vh);
+    right: 2vw;
+    left: auto;
+    bottom: auto;
+    width: 48vw;
+    max-height: 88vh;
+    padding: 10px 10px 14px;
     overflow-y: auto;
     overflow-x: hidden;
+    pointer-events: auto;
+    z-index: 12;
+    background: linear-gradient(180deg, rgba(15, 28, 105, 0.92) 0%, rgba(8, 16, 68, 0.94) 100%);
   }
 
   #menu-screen:has(.resume-stack .resume-card-wrap:nth-of-type(8)) .resume-detail-top {
-    grid-template-columns: 38px minmax(0, 1fr) auto;
-    gap: 6px;
-    min-height: 60px;
-    padding: 0 10px;
+    grid-template-columns: 28px minmax(0, 1fr) auto;
+    gap: 5px;
+    min-height: 48px;
+    padding: 0 8px;
   }
 
   #menu-screen:has(.resume-stack .resume-card-wrap:nth-of-type(8)) .resume-detail-top-index {
-    font-size: 28px;
+    font-size: 22px;
   }
 
-  #menu-screen:has(.resume-stack .resume-card-wrap:nth-of-type(8)) .resume-detail-top-title,
+  #menu-screen:has(.resume-stack .resume-card-wrap:nth-of-type(8)) .resume-detail-top-title {
+    font-size: 15px;
+  }
+
   #menu-screen:has(.resume-stack .resume-card-wrap:nth-of-type(8)) .resume-detail-top-progress {
-    font-size: 19px;
+    font-size: 14px;
   }
 
   #menu-screen:has(.resume-stack .resume-card-wrap:nth-of-type(8)) .resume-detail-bottom {
-    margin-top: 12px;
-    padding: 12px;
+    margin-top: 8px;
+    padding: 8px;
   }
 
   #menu-screen:has(.resume-stack .resume-card-wrap:nth-of-type(8)) .resume-detail-bullet {
-    font-size: 14px;
+    font-size: 11px;
+    line-height: 1.35;
   }
 
   #menu-screen:has(.resume-stack .resume-card-wrap:nth-of-type(8)) .resume-detail-tag {
-    font-size: 14px;
+    font-size: 10px;
+    padding: 2px 5px;
   }
 
-  /* Social links keep their original cards, now sized for a thumb-width column. */
+  /* ── 5. Socials Submenu ── */
+  /* Keep buttons on left (48vw), Makoto Yuki silhouette on right (54vw), background visible */
   #menu-screen.p3-socials-root .p3-silhouette-stage {
-    width: 78vw;
-    opacity: 0.48;
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 54vw;
+    opacity: 1;
+    z-index: 5;
+    pointer-events: none;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
   }
 
   #menu-screen.p3-socials-root .p3-social-overlay {
-    align-items: flex-start;
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    pointer-events: none;
   }
 
   #menu-screen.p3-socials-root .p3-social-stack {
-    top: max(70px, 10dvh);
-    left: 3vw;
-    width: 94vw;
-    max-height: calc(100dvh - 88px);
+    position: absolute;
+    top: max(48px, 9vh);
+    left: 2.5vw;
+    width: 48vw;
+    max-height: 88vh;
     gap: 8px;
     overflow-y: auto;
     overflow-x: hidden;
-    padding: 0 6px 10px 0;
+    padding: 0 4px 10px 0;
     transform: none;
     pointer-events: auto;
   }
 
   #menu-screen.p3-socials-root .p3-social-list-tag {
-    font-size: 52px;
+    font-size: 36px;
+    line-height: 0.88;
+    letter-spacing: 2px;
     margin-bottom: 2px;
   }
 
   #menu-screen.p3-socials-root .p3-social-card {
-    height: 72px;
+    height: 60px;
   }
 
   #menu-screen.p3-socials-root .p3-social-card-inner {
-    padding: 6px 12px 6px 48px;
+    padding: 4px 6px 4px 34px;
     align-items: center;
   }
 
   #menu-screen.p3-socials-root .p3-tarot-badge {
-    top: 7px;
-    left: -5px;
-    width: 42px;
-    height: 52px;
+    top: 5px;
+    left: -4px;
+    width: 30px;
+    height: 38px;
     border-width: 2px;
   }
 
   #menu-screen.p3-socials-root .p3-tarot-badge-num {
-    font-size: 28px;
-  }
-
-  #menu-screen.p3-socials-root .p3-social-title {
-    font-size: 26px;
+    font-size: 20px;
     letter-spacing: 1px;
   }
 
+  #menu-screen.p3-socials-root .p3-social-title {
+    font-size: 18px;
+    letter-spacing: 1px;
+    line-height: 0.95;
+  }
+
   #menu-screen.p3-socials-root .p3-social-rank {
-    gap: 4px;
+    gap: 3px;
   }
 
   #menu-screen.p3-socials-root .p3-social-rank-label {
-    font-size: 12px;
+    font-size: 9px;
     letter-spacing: 1px;
   }
 
   #menu-screen.p3-socials-root .p3-social-rank-num {
-    font-size: 30px;
+    font-size: 20px;
   }
 
   #menu-screen.p3-socials-root .p3-social-subtitle-bar {
-    left: 48px;
-    right: 8px;
-    bottom: 6px;
-    height: 20px;
-    padding: 0 8px;
+    left: 32px;
+    right: 4px;
+    bottom: 4px;
+    height: 15px;
+    padding: 0 5px;
   }
 
   #menu-screen.p3-socials-root .p3-social-subtitle {
-    font-size: 13px;
-    letter-spacing: 0.5px;
+    font-size: 9px;
+    letter-spacing: 0.3px;
     white-space: nowrap;
   }
 }

@@ -870,26 +870,6 @@ export default function AboutMe({ src = main1 }) {
           z-index: 3;
           clip-path: polygon(20px 0%, 100% 0%, calc(100% - 20px) 100%, 0% 100%);
         }
-
-        /* footer hints */
-          border-radius: 3px;
-          padding: 1px 6px; font-size: 11px;
-        }
-          position: fixed;
-          top: 22px; left: 22px;
-          z-index: 40;
-          font-family: 'Bebas Neue', sans-serif;
-          font-size: 20px; letter-spacing: 3px;
-          color: rgba(255,255,255,0.82);
-          background: rgba(0,0,0,0.55);
-          border: 1.5px solid rgba(255,255,255,0.18);
-          padding: 10px 22px;
-          clip-path: polygon(0 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
-          cursor: pointer; pointer-events: all;
-          text-decoration: none;
-          transition: background 0.18s ease, color 0.18s ease;
-          user-select: none;
-        }
       `}</style>
 
       <div className="sc-root" role="navigation">
